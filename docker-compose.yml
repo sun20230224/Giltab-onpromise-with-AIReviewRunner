@@ -1,0 +1,21 @@
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:18.11.2-ce.0
+    container_name: gitlab
+    restart: always
+    hostname: 'git.dev.inceptio.tech'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://git.dev.sample.com'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2424
+        # 开启LDAP
+        #gitlab_rails['ldap_enabled'] = true
+    ports:
+      - '80:80'
+      - '443:443'
+      - '2424:22'
+    volumes:
+      - '/srv/gitlab/config:/etc/gitlab'
+      - '/srv/gitlab/logs:/var/log/gitlab'
+      - '/srv/gitlab/data:/var/opt/gitlab'
+    shm_size: '12g'
